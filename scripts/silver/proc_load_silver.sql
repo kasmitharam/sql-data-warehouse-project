@@ -28,14 +28,14 @@ BEGIN
 			cst_key,
 			TRIM(cst_firstname) as cst_firstname,
 			TRIM(cst_lastname) as cst_lastname,
-			case when TRIM(UPPER(cst_gndr)) = 'F' THEN 'Female'
-				 when TRIM(UPPER(cst_gndr)) = 'M' THEN 'Male'
-				 ELSE 'n/a'
-			END AS cst_gndr,
 			case when TRIM(UPPER(cst_marital_status)) = 'S' THEN 'Single'
 				 when TRIM(UPPER(cst_marital_status)) = 'M' THEN 'Married'
 				 ELSE 'n/a'
 			END AS cst_marital_status,
+			case when TRIM(UPPER(cst_gndr)) = 'F' THEN 'Female'
+				 when TRIM(UPPER(cst_gndr)) = 'M' THEN 'Male'
+				 ELSE 'n/a'
+			END AS cst_gndr,
 			cst_create_date 
 			FROM (SELECT *,
 			row_number() over(partition by cst_id order by cst_create_date desc) as flag_last
@@ -196,7 +196,6 @@ BEGIN
 
 
 	END CATCH
-END;
-GO
+END
 
 EXEC silver.load_silver;
